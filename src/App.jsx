@@ -7,7 +7,7 @@ import AdminLogin from "../src/components/company/loginyregister/AdminLogin";
 import AdminDashboard from "./components/company/profile/AdminDashboard"; 
 import AboutUs from "./components/pagina_prin/quienes_somos/AboutUs"; // Nueva importación
 import "../config/axiosSetup.js"
-
+  
 function App() {
   return (
     <Router>
