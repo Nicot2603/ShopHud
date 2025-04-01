@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Footer from "../../layout/Footer"; // Importamos el Footer
 import { FaBullseye, FaEye, FaStar } from "react-icons/fa"; // Importamos iconos
+import Navbar from "../../layout/Navbar";
 
 const AboutUs = () => {
   return (
     <div className="bg-gray-100 min-h-screen flex flex-col">
+      <Navbar/>
       <div className="flex-grow flex flex-col items-center justify-center p-6">
         <h1 className="text-4xl font-bold text-gray-800 mb-4">Quiénes Somos</h1>
         
