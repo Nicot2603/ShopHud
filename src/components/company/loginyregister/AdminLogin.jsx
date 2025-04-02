@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../../layout/Navbar";
+
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -18,7 +18,6 @@ const AdminLogin = () => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing again
     if (error) setError(null);
   };
 
@@ -28,37 +27,41 @@ const AdminLogin = () => {
     setError(null);
 
     try {
-      const response = await axios.post("/admin/login", formData, {
-        headers: { "Content-Type": "application/json" },
+      console.log("Haciendo POST a: /api/admin/login");
+
+      const response = await fetch("https://9440-186-29-84-254.ngrok-free.app/api/admin/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "true"
+        },
+        body: JSON.stringify(formData)
       });
 
-      // Store token if provided in response
-      if (response.data.token) {
-        localStorage.setItem("adminToken", response.data.token);
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
       }
 
-      // Success notification using a more subtle approach than alert
+      const data = await response.json();
+      console.log("Datos obtenidos del servidor:", data);
+
+      if (data.token) {
+        localStorage.setItem("adminToken", data.token);
+      }
+
       navigate("/admin-dashboard", { 
-        state: { notification: response.data.message || "Inicio de sesión exitoso" } 
+        state: { notification: data.message || "Inicio de sesión exitoso" } 
       });
     } catch (err) {
-      // Detailed error handling
-      if (err.response && err.response.status === 401) {
-        setError("Credenciales incorrectas. Por favor verifica tu email y contraseña.");
-      } else if (err.response) {
-        setError(err.response.data.error || "Error en el servidor. Inténtalo más tarde.");
-      } else if (err.request) {
-        setError("No se pudo conectar al servidor. Verifica tu conexión e inténtalo de nuevo.");
-      } else {
-        setError("Algo salió mal. Inténtalo más tarde.");
-      }
+      console.error("Error en la autenticación:", err);
+      setError("Error al iniciar sesión. Por favor, verifica tus credenciales o inténtalo más tarde.");
     } finally {
       setIsLoading(false);
     }
   };
 
   const navigateToHome = () => {
-    navigate("/"); // Navega a la página principal
+    navigate("/");
   };
 
   return (
