@@ -1,19 +1,23 @@
-const fetchVisits = async () => {
+const fetchData = async (endpoint, options = {}) => {
   try {
-    const response = await fetch("https://9440-186-29-84-254.ngrok-free.app/api/admin/visitas", {
+    const response = await fetch(`https://9440-186-29-84-254.ngrok-free.app/api${endpoint}`, {
+      ...options,
       headers: {
-        "Accept": "application/json",
-        "ngrok-skip-browser-warning": "true"
+        "Content-Type": "application/json",
+        "ngrok-skip-browser-warning": "true",
+        ...(options.headers || {})
       }
     });
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`Error en la solicitud: ${response.status}`);
     }
 
-    const data = await response.json();
-    console.log("Datos obtenidos del servidor:", data);
-  } catch (err) {
-    console.error("Error al obtener visitas:", err);
+    return await response.json();
+  } catch (error) {
+    console.error("Error en fetchData:", error);
+    throw error;
   }
 };
+
+export default fetchData;
