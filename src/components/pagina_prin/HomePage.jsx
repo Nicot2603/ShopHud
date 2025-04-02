@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import axios from "axios";
 import Categories from "./Categories.jsx";
 import FeaturedProducts from "./FeaturedProducts.jsx";
 import Footer from "../layout/Footer.jsx";
@@ -9,7 +8,21 @@ const HomePage = () => {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-        await axios.get("http://localhost:5000/api/admin/visitas");
+        console.log("Haciendo GET a: /api/admin/visitas");
+
+        const response = await fetch("https://9440-186-29-84-254.ngrok-free.app/api/admin/visitas", {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log("Datos obtenidos del servidor:", data);
       } catch (err) {
         console.error("Error al registrar visita:", err);
       }
