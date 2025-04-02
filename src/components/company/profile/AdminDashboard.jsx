@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import axios from "axios";
 import Navbar from "../../layout/Navbar";
 
 const AdminDashboard = () => {
@@ -11,26 +10,34 @@ const AdminDashboard = () => {
     const fetchVisits = async () => {
       try {
         console.log("Haciendo GET a: /admin/obtenerVisitas");
-        const response = await axios.get("/admin/obtenerVisitas");
-        console.log("Datos obtenidos del servidor:", response.data);
-        setVisitCount(response.data.visits); // Actualiza el estado con el conteo de visitas
+    
+        const response = await fetch("https://9440-186-29-84-254.ngrok-free.app/api/admin/obtenerVisitas", {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
+    
+        const data = await response.json();
+        console.log("Datos obtenidos del servidor:", data);
+        setVisitCount(data.visits);
       } catch (err) {
-        console.error("Error al obtener visitas:", err.response || err);
+        console.error("Error al obtener visitas:", err);
       }
     };
+
+    fetchVisits();
 
     // Establecer la altura del Navbar una vez que se haya montado
     const updateNavbarHeight = () => {
       if (navbarRef.current) {
         const navbarRect = navbarRef.current.getBoundingClientRect();
-        setNavbarHeight(navbarRect.height); // Usamos getBoundingClientRect para mayor precisión
+        setNavbarHeight(navbarRect.height);
       }
     };
 
     updateNavbarHeight();
-    window.addEventListener("resize", updateNavbarHeight); // Actualizar altura en caso de redimensionar la ventana
-
-    fetchVisits();
+    window.addEventListener("resize", updateNavbarHeight);
 
     return () => {
       window.removeEventListener("resize", updateNavbarHeight);
