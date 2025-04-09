@@ -10,7 +10,7 @@ const HomePage = () => {
       try {
         console.log("Haciendo GET a: /api/admin/visitas");
 
-        const response = await fetch("https://086b-186-29-234-218.ngrok-free.app/api/admin/visitas", {
+        const response = await fetch("https://1f32-186-29-234-218.ngrok-free.app/api/admin/visitas", {
           headers: {
             "Accept": "application/json",
             "ngrok-skip-browser-warning": "true"
