@@ -11,7 +11,7 @@ const AdminDashboard = () => {
       try {
         console.log("Haciendo GET a: /admin/obtenerVisitas");
     
-        const response = await fetch("https://9440-186-29-84-254.ngrok-free.app/api/admin/obtenerVisitas", {
+        const response = await fetch("https://086b-186-29-234-218.ngrok-free.app/api/admin/obtenerVisitas", {
           headers: {
             "Accept": "application/json",
             "ngrok-skip-browser-warning": "true"
