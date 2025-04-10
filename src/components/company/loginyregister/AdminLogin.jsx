@@ -29,7 +29,7 @@ const AdminLogin = () => {
     try {
 
 
-      const response = await axios.post("/admin/login", formData);
+      const response = await axios.post("http://c37b-186-154-59-147.ngrok-free-app/api/admin/login", formData);
 
       if (response.data.token) {
         localStorage.setItem("adminToken", response.data.token);
