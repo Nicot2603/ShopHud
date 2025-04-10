@@ -186,13 +186,13 @@ const PerfilUsuario = () => {
                         <p className="mb-6">Por favor inicia sesión para ver tu perfil y acceder a todas las funcionalidades.</p>
                         <div className="flex space-x-4 justify-center">
                             <button 
-                                onClick={() => navigate('/login')}
+                                onClick={() => navigate('/login/user')}
                                 className="bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-2 rounded-lg font-medium transition duration-200"
                             >
                                 Iniciar Sesión
                             </button>
                             <button 
-                                onClick={() => navigate('/registro')}
+                                onClick={() => navigate('/register/user')}
                                 className="bg-gray-700 hover:bg-gray-600 text-white px-6 py-2 rounded-lg font-medium transition duration-200"
                             >
                                 Registrarse
