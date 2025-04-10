@@ -29,7 +29,12 @@ const AdminLogin = () => {
     try {
 
 
-      const response = await axios.post("/admin/login", formData);
+      const response = await axios.post("/admin/login", formData, {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
 
       if (response.data.token) {
         localStorage.setItem("adminToken", response.data.token);
