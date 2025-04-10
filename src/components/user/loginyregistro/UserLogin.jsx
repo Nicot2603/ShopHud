@@ -19,7 +19,12 @@ const UserLogin = () => {
       const { data } = await axios.post("/usuario/login", {
         email,
         password,
-      });
+      }, {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
 
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
