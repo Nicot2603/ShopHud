@@ -112,7 +112,6 @@ const PerfilUsuario = () => {
         localStorage.clear();
         navigate("/");
     };
-};
 
     if (!usuarioId) {
         return (
@@ -121,7 +120,7 @@ const PerfilUsuario = () => {
             </div>
         );
     }
-
+};
     return (
         <div className="min-h-screen bg-gray-900 text-white flex">
             <div className="w-3/4 p-6">
