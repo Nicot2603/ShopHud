@@ -11,47 +11,34 @@ const UserLogin = () => {
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-  e.preventDefault();
-  setError("");
-  setIsLoading(true);
+    e.preventDefault();
+    setError("");
+    setIsLoading(true);
 
-  try {
-    const { data } = await axios.post("/usuario/login", {
-      email,
-      password
-    }, {
-      headers: {
-        "Accept": "application/json",
-        "ngrok-skip-browser-warning": "true"
-      }
-    });
+    try {
+      const { data } = await axios.post("/usuario/login", {
+        email,
+        password
+      }, {
+        headers: {
+          "Accept": "application/json",
+          "ngrok-skip-browser-warning": "true"
+        }
+      });
 
-    console.log("Respuesta del servidor:", data);
-
-    localStorage.setItem("usuario", JSON.stringify(data.usuario));
-    setIsLoading(false);
-    navigate("/perfil-usuario");
-    
-  } catch (err) {
-    setIsLoading(false);
-    const mensaje = err.response?.data?.message || "Error al iniciar sesión.";
-    setError(mensaje);
-  }
-};
+      console.log("Respuesta del servidor:", data);
 
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
-
-      setIsLoading(false);
       navigate("/perfil-usuario");
+
     } catch (err) {
-      setIsLoading(false);
-      const mensaje =
-        err.response?.data?.message ||
-        "Error al iniciar sesión. Por favor verifica tus credenciales.";
+      const mensaje = err.response?.data?.message || "Error al iniciar sesión. Por favor verifica tus credenciales.";
       setError(mensaje);
+    } finally {
+      setIsLoading(false);
     }
   };
-
+  
   return (
     <div className="min-h-screen bg-gray-900 text-white">
       <Navbar />
