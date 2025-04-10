@@ -26,7 +26,12 @@ const RegistroUsuario = () => {
         setError("");
 
         try {
-            const response = await axios.post("/usuario/register", formData);
+            const response = await axios.post("/usuario/register", formData, {
+    headers: {
+      "Accept": "application/json",
+      "ngrok-skip-browser-warning": "true"
+    }
+  });
             setMensaje(response.data.message);
 
             // Mostrar alerta de éxito
