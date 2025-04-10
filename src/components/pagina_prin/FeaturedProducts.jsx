@@ -9,7 +9,12 @@ const FeaturedProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/producto/obtenerProductos");
+        const response = await axios.get("/producto/obtenerProductos", , {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
         console.log("Datos recibidos:", response.data); // Ver la estructura real
         
         // Asegurarse de que response.data es un array antes de usar slice
