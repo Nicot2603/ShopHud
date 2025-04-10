@@ -11,7 +11,12 @@ const AdminDashboard = () => {
     const fetchVisits = async () => {
       try {
 
-        const response = await axios.get("/admin/estadisticas");
+        const response = await axios.get("/admin/estadisticas", {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
         setVisitCount(response.data.totalVisitas);
       } catch (err) {
       }
