@@ -27,6 +27,24 @@ const FeaturedProducts = () => {
     fetchProducts();
   }, []);
 
+  // 📌 Nueva función para cargar imágenes con headers de Ngrok
+  const fetchImagen = async (event, imagenUrl) => {
+    try {
+      const response = await axios.get(`https://c37b-186-154-59-147.ngrok-free.app/${imagenUrl}`, {
+        headers: {
+          "ngrok-skip-browser-warning": "true"
+        },
+        responseType: "blob" // Para recibir la imagen como archivo
+      });
+
+      const imageUrl = URL.createObjectURL(response.data);
+      event.target.src = imageUrl; // Reemplaza la imagen en el `<img />`
+    } catch (err) {
+      console.error("Error al cargar la imagen:", err);
+      event.target.src = "/fallback-image.jpg"; // Imagen de respaldo si falla la carga
+    }
+  };
+
   return (
     <div className="py-10 bg-gray-100">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Productos Destacados</h2>
@@ -37,6 +55,7 @@ const FeaturedProducts = () => {
               src={`https://c37b-186-154-59-147.ngrok-free.app/${producto.imagen}`} // Mostrar la imagen desde el servidor
               alt={producto.nombre}
               className="w-full h-48 object-cover mb-4"
+              onError={(e) => fetchImagen(e, producto.imagen)}
             />
             <h3 className="text-lg font-semibold">{producto.nombre}</h3>
             <p className="text-gray-600">{producto.descripcion}</p>
