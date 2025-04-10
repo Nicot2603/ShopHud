@@ -10,8 +10,10 @@ const FeaturedProducts = () => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get("/producto/obtenerProductos");
-        // Tomar los primeros 3 productos
-        setProducts(response.data.slice(0, 4));
+        console.log("Datos recibidos:", response.data); // Ver la estructura real
+        
+        // Asegurarse de que response.data es un array antes de usar slice
+        setProducts(Array.isArray(response.data) ? response.data.slice(0, 4) : []);
       } catch (err) {
         console.error("Error al obtener productos destacados:", err);
       }
