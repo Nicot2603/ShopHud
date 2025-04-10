@@ -16,7 +16,7 @@ const UserLogin = () => {
     setIsLoading(true);
 
     try {
-      const { data } = await axios.post("/usuario/login", {
+  const { data } = await axios.post("/usuario/login", {
     email,
     password
   }, {
@@ -26,6 +26,16 @@ const UserLogin = () => {
     }
   });
 
+  console.log("Respuesta del servidor:", data);
+
+  localStorage.setItem("usuario", JSON.stringify(data.usuario));
+  setIsLoading(false);
+  navigate("/perfil-usuario");
+} catch (err) {
+  setIsLoading(false);
+  const mensaje = err.response?.data?.message || "Error al iniciar sesión.";
+  setError(mensaje);
+}
 
       localStorage.setItem("usuario", JSON.stringify(data.usuario));
 
