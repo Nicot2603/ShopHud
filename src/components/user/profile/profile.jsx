@@ -19,7 +19,12 @@ const PerfilUsuario = () => {
 
     const obtenerProductos = async () => {
         try {
-            const res = await axios.get("/producto/obtenerProductos");
+            const res = await axios.get("/producto/obtenerProductos", {
+          headers: {
+            "Accept": "application/json",
+            "ngrok-skip-browser-warning": "true"
+          }
+        });
             setProductos(res.data);
         } catch (err) {
             console.error("Error al obtener productos", err);
