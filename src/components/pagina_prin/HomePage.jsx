@@ -9,11 +9,9 @@ const HomePage = () => {
   useEffect(() => {
     const trackVisit = async () => {
       try {
-
-        const response = await axios.post("/visita/registrarVisita");
-
-        console.log("Respuesta del servidor:", response.data.message);
+        await axios.get("http://localhost:5000/api/admin/visitas");
       } catch (err) {
+        console.error("Error al registrar visita:", err);
       }
     };
 
