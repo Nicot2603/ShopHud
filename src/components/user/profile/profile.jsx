@@ -33,24 +33,30 @@ const PerfilUsuario = () => {
     };
 
     const obtenerCarrito = async () => {
-        if (!usuarioId) {
-            console.error("Intento de obtener carrito sin usuarioId");
-            return;
-        }
+    if (!usuarioId) {
+        console.error("Intento de obtener carrito sin usuarioId");
+        return;
+    }
 
-        try {
-            const res = await axios.get(`/carrito/${usuarioId}`);
-            console.log("Respuesta de carrito:", res.data);
-            setCarrito(Array.isArray(res.data) ? res.data : []);
-
-            if (Array.isArray(res.data) && res.data.length > 0) {
-                const carritoId = res.data[0].id;
-                localStorage.setItem("carritoId", String(carritoId));
+    try {
+        const res = await axios.get(`/carrito/${usuarioId}`, {
+            headers: {
+                "Accept": "application/json",
+                "ngrok-skip-browser-warning": "true"
             }
-        } catch (err) {
-            console.error("Error al obtener carrito", err);
+        });
+
+        console.log("Respuesta de carrito:", res.data);
+        setCarrito(Array.isArray(res.data) ? res.data : []);
+
+        if (Array.isArray(res.data) && res.data.length > 0) {
+            const carritoId = res.data[0].id;
+            localStorage.setItem("carritoId", String(carritoId));
         }
-    };
+    } catch (err) {
+        console.error("Error al obtener carrito", err);
+    }
+};
 
     const agregarAlCarrito = async (productoId) => {
         if (!usuarioId || !productoId) {
@@ -72,25 +78,31 @@ const PerfilUsuario = () => {
         }
     };
 
-    const eliminarDelCarrito = async (productoId) => {
-        const carritoId = localStorage.getItem("carritoId");
+    const obtenerCarrito = async () => {
+    if (!usuarioId) {
+        console.error("Intento de obtener carrito sin usuarioId");
+        return;
+    }
 
-        if (!carritoId) {
-            alert("No se encontró el carritoId en localStorage");
-            return;
-        }
+    try {
+        const res = await axios.get(`/carrito/${usuarioId}`, {
+            headers: {
+                "Accept": "application/json",
+                "ngrok-skip-browser-warning": "true"
+            }
+        });
 
-        try {
-            await axios.delete(`/carrito/eliminar/${usuarioId}`, {
-                data: { carritoId: Number(carritoId) },
-            });
-            await obtenerCarrito();
-            alert("Producto eliminado del carrito");
-        } catch (err) {
-            console.error("Error al eliminar del carrito", err);
-            alert(err.response?.data?.error || "Error al eliminar del carrito");
+        console.log("Respuesta de carrito:", res.data);
+        setCarrito(Array.isArray(res.data) ? res.data : []);
+
+        if (Array.isArray(res.data) && res.data.length > 0) {
+            const carritoId = res.data[0].id;
+            localStorage.setItem("carritoId", String(carritoId));
         }
-    };
+    } catch (err) {
+        console.error("Error al obtener carrito", err);
+    }
+};
 
     const cerrarSesion = () => {
         localStorage.clear();
