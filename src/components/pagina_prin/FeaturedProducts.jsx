@@ -1,71 +1,29 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from "react";
 
 const FeaturedProducts = () => {
-  const [products, setProducts] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await axios.get("/producto/obtenerProductos", {
-          headers: {
-            "Accept": "application/json",
-            "ngrok-skip-browser-warning": "true"
-          }
-        });
-        console.log("Datos recibidos:", response.data); // Ver la estructura real
-        
-        // Asegurarse de que response.data es un array antes de usar slice
-        setProducts(Array.isArray(response.data) ? response.data.slice(0, 4) : []);
-      } catch (err) {
-        console.error("Error al obtener productos destacados:", err);
-      }
-    };
-
-    fetchProducts();
-  }, []);
-
-  // 📌 Nueva función para cargar imágenes con headers de Ngrok
-  const fetchImagen = async (event, imagenUrl) => {
-    try {
-      const response = await axios.get(`https://c37b-186-154-59-147.ngrok-free.app/${imagenUrl}`, {
-        headers: {
-          "ngrok-skip-browser-warning": "true"
-        },
-        responseType: "blob" // Para recibir la imagen como archivo
-      });
-
-      const imageUrl = URL.createObjectURL(response.data);
-      event.target.src = imageUrl; // Reemplaza la imagen en el `<img />`
-    } catch (err) {
-      console.error("Error al cargar la imagen:", err);
-      event.target.src = "/fallback-image.jpg"; // Imagen de respaldo si falla la carga
-    }
-  };
+  const products = [
+    { id: 1, name: "Smartphone", price: "$500", img: "/product1.jpg" },
+    { id: 2, name: "Zapatillas", price: "$80", img: "/product2.jpg" },
+    { id: 3, name: "Laptop", price: "$1000", img: "/product3.jpg" },
+  ];
 
   return (
     <div className="py-10 bg-gray-100">
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">Productos Destacados</h2>
-      <div className="container mx-auto px-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((producto) => (
-          <div key={producto.id} className="border rounded-lg p-4 shadow-md">
-            <img
-              src={`https://c37b-186-154-59-147.ngrok-free.app/${producto.imagen}`} // Mostrar la imagen desde el servidor
-              alt={producto.nombre}
-              className="w-full h-48 object-cover mb-4"
-              onError={(e) => fetchImagen(e, producto.imagen)}
-            />
-            <h3 className="text-lg font-semibold">{producto.nombre}</h3>
-            <p className="text-gray-600">{producto.descripcion}</p>
-            <p className="text-green-600 font-bold">${producto.precio}</p>
-            <button
-              onClick={() => navigate("/login/user")}
-              className="mt-4 px-5 py-2 bg-yellow-500 text-white font-bold rounded-md hover:bg-yellow-600 transition"
-            >
-              Ver más
-            </button>
+      <div className="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+        {products.map((prod) => (
+          <div
+            key={prod.id}
+            className="bg-white rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition duration-300"
+          >
+            <img src={prod.img} alt={prod.name} className="w-full h-56 object-cover" />
+            <div className="p-5 text-center">
+              <h3 className="text-xl font-semibold text-gray-800">{prod.name}</h3>
+              <p className="text-yellow-600 font-bold text-lg mt-2">{prod.price}</p>
+              <button className="mt-4 px-5 py-2 bg-yellow-500 text-white font-bold rounded-md hover:bg-yellow-600 transition">
+                Ver más
+              </button>
+            </div>
           </div>
         ))}
       </div>
