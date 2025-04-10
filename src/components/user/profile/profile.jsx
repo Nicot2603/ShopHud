@@ -108,6 +108,24 @@ const PerfilUsuario = () => {
         }
     };
 
+    // 📌 Función para cargar imágenes con headers de Ngrok
+    const fetchImagen = async (event, imagenUrl) => {
+        try {
+            const response = await axios.get(`https://c37b-186-154-59-147.ngrok-free.app/${imagenUrl}`, {
+                headers: {
+                    "ngrok-skip-browser-warning": "true"
+                },
+                responseType: "blob" // Para recibir la imagen como archivo
+            });
+
+            const imageUrl = URL.createObjectURL(response.data);
+            event.target.src = imageUrl; // Reemplaza la imagen en el `<img />`
+        } catch (err) {
+            console.error("Error al cargar la imagen:", err);
+            event.target.src = "/fallback-image.jpg"; // Imagen de respaldo si falla la carga
+        }
+    };
+
     const cerrarSesion = () => {
         localStorage.clear();
         navigate("/");
@@ -160,6 +178,7 @@ const PerfilUsuario = () => {
                                     src={`https://c37b-186-154-59-147.ngrok-free.app/${producto.imagen}`}
                                     alt={producto.nombre}
                                     className="w-full h-40 object-cover rounded-md mb-4"
+                                    onError={(e) => fetchImagen(e, producto.imagen)} // Si la imagen falla, llamamos `fetchImagen()
                                 />
                                 <h3 className="text-lg font-bold">{producto.nombre}</h3>
                                 <p className="text-sm text-gray-300">{producto.descripcion}</p>
