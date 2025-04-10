@@ -9,7 +9,7 @@ const FeaturedProducts = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get("/producto/obtenerProductos", , {
+        const response = await axios.get("/producto/obtenerProductos", {
           headers: {
             "Accept": "application/json",
             "ngrok-skip-browser-warning": "true"
