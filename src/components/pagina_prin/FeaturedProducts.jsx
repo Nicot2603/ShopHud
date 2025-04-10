@@ -27,7 +27,7 @@ const FeaturedProducts = () => {
         {products.map((producto) => (
           <div key={producto.id} className="border rounded-lg p-4 shadow-md">
             <img
-              src={`http://localhost:5000/${producto.imagen}`} // Mostrar la imagen desde el servidor
+              src={`http://c37b-186-154-59-147.ngrok-free-app/${producto.imagen}`} // Mostrar la imagen desde el servidor
               alt={producto.nombre}
               className="w-full h-48 object-cover mb-4"
             />
