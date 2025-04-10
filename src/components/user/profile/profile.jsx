@@ -12,7 +12,6 @@ const PerfilUsuario = () => {
 
     useEffect(() => {
         if (!usuarioId) return;
-
         obtenerProductos();
         obtenerCarrito();
     }, [usuarioId]);
@@ -33,30 +32,30 @@ const PerfilUsuario = () => {
     };
 
     const obtenerCarrito = async () => {
-    if (!usuarioId) {
-        console.error("Intento de obtener carrito sin usuarioId");
-        return;
-    }
-
-    try {
-        const res = await axios.get(`/carrito/${usuarioId}`, {
-            headers: {
-                "Accept": "application/json",
-                "ngrok-skip-browser-warning": "true"
-            }
-        });
-
-        console.log("Respuesta de carrito:", res.data);
-        setCarrito(Array.isArray(res.data) ? res.data : []);
-
-        if (Array.isArray(res.data) && res.data.length > 0) {
-            const carritoId = res.data[0].id;
-            localStorage.setItem("carritoId", String(carritoId));
+        if (!usuarioId) {
+            console.error("Intento de obtener carrito sin usuarioId");
+            return;
         }
-    } catch (err) {
-        console.error("Error al obtener carrito", err);
-    }
-};
+
+        try {
+            const res = await axios.get(`/carrito/${usuarioId}`, {
+                headers: {
+                    "Accept": "application/json",
+                    "ngrok-skip-browser-warning": "true"
+                }
+            });
+
+            console.log("Respuesta de carrito:", res.data);
+            setCarrito(Array.isArray(res.data) ? res.data : []);
+
+            if (Array.isArray(res.data) && res.data.length > 0) {
+                const carritoId = res.data[0].id;
+                localStorage.setItem("carritoId", String(carritoId));
+            }
+        } catch (err) {
+            console.error("Error al obtener carrito", err);
+        }
+    };
 
     const agregarAlCarrito = async (productoId) => {
         if (!usuarioId || !productoId) {
@@ -69,7 +68,13 @@ const PerfilUsuario = () => {
                 usuarioId: Number(usuarioId),
                 productoId: Number(productoId),
                 cantidad: 1,
+            }, {
+                headers: {
+                    "Accept": "application/json",
+                    "ngrok-skip-browser-warning": "true"
+                }
             });
+
             await obtenerCarrito();
             alert("Producto agregado al carrito");
         } catch (err) {
@@ -78,36 +83,36 @@ const PerfilUsuario = () => {
         }
     };
 
-    const obtenerCarrito = async () => {
-    if (!usuarioId) {
-        console.error("Intento de obtener carrito sin usuarioId");
-        return;
-    }
+    const eliminarDelCarrito = async (productoId) => {
+        const carritoId = localStorage.getItem("carritoId");
 
-    try {
-        const res = await axios.get(`/carrito/${usuarioId}`, {
-            headers: {
-                "Accept": "application/json",
-                "ngrok-skip-browser-warning": "true"
-            }
-        });
-
-        console.log("Respuesta de carrito:", res.data);
-        setCarrito(Array.isArray(res.data) ? res.data : []);
-
-        if (Array.isArray(res.data) && res.data.length > 0) {
-            const carritoId = res.data[0].id;
-            localStorage.setItem("carritoId", String(carritoId));
+        if (!carritoId) {
+            alert("No se encontró el carritoId en localStorage");
+            return;
         }
-    } catch (err) {
-        console.error("Error al obtener carrito", err);
-    }
-};
+
+        try {
+            await axios.delete(`/carrito/eliminar/${usuarioId}`, {
+                headers: {
+                    "Accept": "application/json",
+                    "ngrok-skip-browser-warning": "true"
+                },
+                data: { carritoId: Number(carritoId) },
+            });
+
+            await obtenerCarrito();
+            alert("Producto eliminado del carrito");
+        } catch (err) {
+            console.error("Error al eliminar del carrito", err);
+            alert(err.response?.data?.error || "Error al eliminar del carrito");
+        }
+    };
 
     const cerrarSesion = () => {
         localStorage.clear();
         navigate("/");
     };
+};
 
     if (!usuarioId) {
         return (
