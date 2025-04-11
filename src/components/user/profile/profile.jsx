@@ -153,7 +153,7 @@ const PerfilUsuario = () => {
     // Función para cargar imágenes con headers de Ngrok
     const fetchImagen = async (event, imagenUrl) => {
         try {
-            const response = await axios.get(`https://6718-186-154-59-147.ngrok-free.app/${imagenUrl}`, {
+            const response = await axios.get(`https://a67c-201-245-240-74.ngrok-free.app/${imagenUrl}`, {
                 headers: {
                     "ngrok-skip-browser-warning": "true"
                 },
@@ -290,7 +290,7 @@ const PerfilUsuario = () => {
                                         <div key={producto.id} className="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1">
                                             <div className="relative h-48">
                                                 <img
-                                                    src={`https://c37b-186-154-59-147.ngrok-free.app/${producto.imagen}`}
+                                                    src={`https://a67c-201-245-240-74.ngrok-free.app/${producto.imagen}`}
                                                     alt={producto.nombre}
                                                     className="w-full h-full object-cover"
                                                     onError={(e) => fetchImagen(e, producto.imagen)}
