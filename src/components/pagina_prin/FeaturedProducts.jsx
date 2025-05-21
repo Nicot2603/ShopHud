@@ -30,7 +30,7 @@ const FeaturedProducts = () => {
   // 📌 Nueva función para cargar imágenes con headers de Ngrok
   const fetchImagen = async (event, imagenUrl) => {
     try {
-      const response = await axios.get(`https://a67c-201-245-240-74.ngrok-free.app/${imagenUrl}`, {
+      const response = await axios.get(`https://5fe9-186-154-161-237.ngrok-free.app/${imagenUrl}`, {
         headers: {
           "ngrok-skip-browser-warning": "true"
         },
@@ -52,7 +52,7 @@ const FeaturedProducts = () => {
         {products.map((producto) => (
           <div key={producto.id} className="border rounded-lg p-4 shadow-md">
             <img
-              src={`https://a67c-201-245-240-74.ngrok-free.app/api/${producto.imagen}`} // Mostrar la imagen desde el servidor
+              src={`https://5fe9-186-154-161-237.ngrok-free.app/api/${producto.imagen}`} // Mostrar la imagen desde el servidor
               alt={producto.nombre}
               className="w-full h-48 object-cover mb-4"
               onError={(e) => fetchImagen(e, producto.imagen)}
